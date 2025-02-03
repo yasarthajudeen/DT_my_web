@@ -23,7 +23,7 @@ jobs:
       # Step 3: Install Pinata CLI globally
       - name: Install Pinata CLI
         run: |
-          npm install -g @pinata/pinata-cli
+          npm install -g pinata
           pinata --version
 
       # Step 4: Log in to Pinata using API keys
