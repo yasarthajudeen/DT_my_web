@@ -10,32 +10,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Install Node.js (required for Pinata CLI)
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # Step 3: Install Pinata CLI globally
       - name: Install Pinata CLI
         run: |
           npm install -g @pinata/cli
 
+      # Step 4: Log in to Pinata using API keys
       - name: Log in to Pinata
         run: |
           echo "//api.pinata.cloud/:_authToken=${{ secrets.PINATA_API_KEY }}:${{ secrets.PINATA_SECRET_API_KEY }}" > ~/.npmrc
           pinata login --jwt
 
+      # Step 5: Upload the website files to IPFS
       - name: Upload files to IPFS
         run: |
           pinata pinFromFS ./my_web --pinataMetadata '{"name":"Decentralized Website"}'
 
+      # Step 6: Get the CID of the pinned content
       - name: Get CID
         id: get-cid
         run: |
           cid=$(pinata pin ls --status pinned | grep "Decentralized Website" | awk '{print $1}')
           echo "CID=$cid" >> $GITHUB_ENV
 
-      - name: Print CID
-        run: echo "Your website is live at: https://ipfs.io/ipfs/${{ env.CID }}"
+      # Step 7: Print the CID and the live URL
+      - name: Print CID and Live URL
+        run: |
+          echo "Your website is live at: https://ipfs.io/ipfs/${{ env.CID }}"
