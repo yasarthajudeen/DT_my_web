@@ -34,7 +34,7 @@ jobs:
       # Step 5: Upload the website files to IPFS
       - name: Upload files to IPFS
         run: |
-          pinata pinFromFS ./my_web --pinataMetadata '{"name":"Decentralized Website"}'
+          pinata pinFromFS ./MY_newweb --pinataMetadata '{"name":"Decentralized Website"}'
 
       # Step 6: Get the CID of the pinned content
       - name: Get CID
